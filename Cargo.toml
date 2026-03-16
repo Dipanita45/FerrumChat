@@ -1,0 +1,26 @@
+[package]
+name = "ferrumchat"
+edition='2024'
+version='0.1.0'
+
+[dependencies]
+serde = { version = "1.0.183", features = ["derive"] }
+serde_json = "1.0.104"
+uuid = { version = "1.4.1", features = ["serde", "v4"] }
+chrono = { version = "0.4.26", features = ["serde"] }
+axum = { version = "0.7.6", features = ["multipart", "ws"]}
+axum-extra = { version = "0.9.3", features = ["cookie"]}
+sqlx = { version = "0.8.1", features = ["runtime-tokio-rustls", "postgres", "chrono", "uuid"] }
+jsonwebtoken = { version = "10.3.0", features = ["rust_crypto"] }
+tower-http = { version = "0.5.2", features = ["cors","trace"] }
+tracing-subscriber = { version = "0.3.18"}
+tokio = { version = "1.39.3", features = ["full"] }
+dotenv = "0.15.0"
+validator = { version = "0.16.1", features = ["derive"] }
+argon2 = "0.5.1"
+async-trait = "0.1.72"
+time = "0.3.20"
+futures-util = "0.3.31"
+tracing = "0.1"
+
+
