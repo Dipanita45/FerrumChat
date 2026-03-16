@@ -28,6 +28,8 @@ pub async fn read_loop(
             created_at: Utc::now(),
         };
 
+        let message = Message::Text(serde_json::to_string(&out).unwrap().into());
+
         let _ = users_chat::send_to_user(
             other_user,
             Message::Text(serde_json::to_string(&out).unwrap().into()),
@@ -35,7 +37,9 @@ pub async fn read_loop(
         )
         .await;
 
-        let state_bg = state.clone();
+        let _ = users_chat::send_to_user(user_id, message, &state).await;
+
+        let state_bg = state.clone();   
         let content = payload.content.clone();
         let chat_id = payload.chat_id;
         tokio::spawn(async move {
