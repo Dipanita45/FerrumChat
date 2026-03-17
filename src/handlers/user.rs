@@ -8,8 +8,8 @@ use axum::{
     response::IntoResponse,
     routing::{get, put},
 };
-use validator::Validate;
 use std::collections::HashMap;
+use validator::Validate;
 
 use crate::{
     AppState,
@@ -23,8 +23,9 @@ use crate::{
 };
 
 pub fn users_handler() -> Router<Arc<AppState>> {
-    Router::new().route("/me", get(get_me))
-    .route("/users/search", get(search_users))
+    Router::new()
+        .route("/me", get(get_me))
+        .route("/users/search", get(search_users))
 }
 
 pub async fn get_me(

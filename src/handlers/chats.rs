@@ -3,7 +3,7 @@ use axum::{
     extract::{Path, Query, State},
     http::StatusCode,
     response::IntoResponse,
-    routing::{delete, get, post, patch},
+    routing::{delete, get, patch, post},
 };
 use std::sync::Arc;
 use uuid::Uuid;
@@ -27,8 +27,8 @@ pub fn chats_handler() -> Router<Arc<AppState>> {
         .route("/chats", get(get_chats))
         .route("/chats/:id/messages", get(get_messages))
         .route("/chats/:id", delete(delete_chat))
-        .route("/messages/:id", patch(edit_message))      
-        .route("/messages/:id", delete(delete_message))  
+        .route("/messages/:id", patch(edit_message))
+        .route("/messages/:id", delete(delete_message))
 }
 
 pub async fn create_chat(
@@ -99,9 +99,12 @@ pub async fn edit_message(
 ) -> Result<impl IntoResponse, HttpError> {
     let message = state
         .db_client
-        .edit_message(message_id, &body.content)
+        .edit_message(message_id, user.user.id, &body.content)
         .await
-        .map_err(|e| HttpError::server_error(e.to_string()))?;
+        .map_err(|e| match e {
+            sqlx::Error::RowNotFound => HttpError::unauthorized("Not allowed to edit this message"),
+            _ => HttpError::server_error(e.to_string()),
+        })?;
 
     Ok(Json(message))
 }
@@ -113,9 +116,14 @@ pub async fn delete_message(
 ) -> Result<impl IntoResponse, HttpError> {
     state
         .db_client
-        .delete_message(message_id)
+        .delete_message(message_id, user.user.id)
         .await
-        .map_err(|e| HttpError::server_error(e.to_string()))?;
+        .map_err(|e| match e {
+            sqlx::Error::RowNotFound => {
+                HttpError::unauthorized("Not allowed to delete this message")
+            }
+            _ => HttpError::server_error(e.to_string()),
+        })?;
 
     Ok(StatusCode::NO_CONTENT)
 }

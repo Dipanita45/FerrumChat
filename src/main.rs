@@ -84,6 +84,7 @@ async fn main() {
             Method::POST,
             Method::PUT,
             Method::DELETE,
+            Method::PATCH,
             Method::OPTIONS,
         ])
         .allow_headers([AUTHORIZATION, CONTENT_TYPE, ACCEPT, COOKIE])
