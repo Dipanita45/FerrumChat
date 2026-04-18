@@ -33,7 +33,7 @@ We welcome beginners and experienced developers alike. Adhering to these guideli
 
 ### 3. Fork & Clone
 ```bash
-git clone https://github.com/Dipanita45/HEALCONNECT.git
+git clone https://(https://github.com/SATVIKsynopsis/FerrumChat).git
 cd FerrumChat
 ```
 
@@ -44,7 +44,14 @@ git checkout -b your-feature-name
 
 ### 5. Make Changes & Commit
 *   Write clean, readable code.
-*   Remove all `console.log` and unused files.
+*  cargo fmt
+*  cargo clippy
+*  cargo build
+* cargo test
+* dbg!();
+* println!("debug");
+* Remove all debug macros like dbg!() and unnecessary prints.
+* Ensure code passes cargo build and cargo test before PR submission.
 
 ### 6. Submit a Pull Request (PR)
 *   **Title**: Clear and descriptive (e.g., "Fix: Navigation overlap on mobile").
